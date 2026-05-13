@@ -5,4 +5,16 @@
 
 ---@module 'lazy'
 ---@type LazySpec
-return {}
+return {
+  { 'romgrk/barbar.nvim', opts = {} },
+  {
+    'stevearc/oil.nvim',
+    keys = {
+      { '\\', '<CMD>Oil<CR>', desc = 'Open parent directory' },
+    },
+    opts = {
+      default_file_explorer = true,
+    },
+    lazy = false,
+  },
+}
