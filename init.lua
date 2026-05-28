@@ -523,6 +523,7 @@ require('lazy').setup({
         omnisharp_mono = {},
         pyright = {},
         sqlls = {},
+        qmlls = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
@@ -688,6 +689,7 @@ require('lazy').setup({
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'super-tab',
 
+        ['<Esc>'] = { 'cancel', 'fallback' },
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
@@ -699,9 +701,19 @@ require('lazy').setup({
       },
 
       completion = {
+        ghost_text = { show_with_menu = true, enabled = true },
+        menu = {
+          auto_show = true,
+        },
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
         documentation = { auto_show = true, auto_show_delay_ms = 500 },
+        list = {
+          selection = {
+            preselect = true,
+            auto_insert = false,
+          },
+        },
       },
 
       sources = {
