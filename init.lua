@@ -495,13 +495,18 @@ require('lazy').setup({
         end,
       })
 
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --  See `:help lsp-config` for information about keys and how to configure
       ---@type table<string, vim.lsp.Config>
       local servers = {
-        neocmakelsp = {},
-        slang = {},
+        neocmake = {
+          capabilities = capabilities,
+        },
+        slangd = {},
         just = {},
         clangd = {},
         gopls = {},
@@ -519,8 +524,8 @@ require('lazy').setup({
           },
         },
         jdtls = {},
-        omnisharp = {},
-        omnisharp_mono = {},
+        --omnisharp = {},
+        csharp_ls = {},
         pyright = {},
         sqlls = {},
         qmlls = {
@@ -703,7 +708,7 @@ require('lazy').setup({
       },
 
       completion = {
-        ghost_text = { show_with_menu = true, enabled = true },
+        ghost_text = { show_with_menu = true, enabled = false },
         menu = {
           auto_show = true,
         },
@@ -815,7 +820,23 @@ require('lazy').setup({
     branch = 'main',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go' }
+      local parsers = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'go',
+        'gdscript',
+        'godot_resource',
+        'gdshader',
+      }
       require('nvim-treesitter').install(parsers)
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
@@ -850,7 +871,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
@@ -888,6 +909,27 @@ require('lazy').setup({
     },
   },
 })
+
+-- GODOT STUFF
+-- paths to check for project.godot file
+local paths_to_check = { '/', '/../' }
+local is_godot_project = false
+local godot_project_path = ''
+local cwd = vim.fn.getcwd()
+
+-- iterate over paths and check
+for key, value in pairs(paths_to_check) do
+  if vim.uv.fs_stat(cwd .. value .. 'project.godot') then
+    is_godot_project = true
+    godot_project_path = cwd .. value
+    break
+  end
+end
+
+-- check if server is already running in godot project path
+local is_server_running = vim.uv.fs_stat(godot_project_path .. '/server.pipe')
+-- start server, if not already running
+if is_godot_project and not is_server_running then vim.fn.serverstart(godot_project_path .. '/server.pipe') end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
