@@ -21,7 +21,6 @@ require('oil').setup {
 
 require('todo-comments').setup()
 require('nvim-autopairs').setup()
-
 require('mini.statusline').setup()
 require('mini.cmdline').setup()
 require('mini.surround').setup()

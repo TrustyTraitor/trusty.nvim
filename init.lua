@@ -5,6 +5,6 @@ require 'plugins'
 require 'lspplugins'
 require 'keymaps'
 require 'commands'
-require 'godot'
+require 'optional.godot'
 
 vim.cmd.colorscheme 'catppuccin-mocha'
