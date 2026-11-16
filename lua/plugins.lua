@@ -13,6 +13,10 @@ vim.pack.add {
   'https://github.com/nvim-neotest/nvim-nio',
   'https://github.com/mfussenegger/nvim-dap',
   'https://github.com/rcarriga/nvim-dap-ui',
+  {
+    src = 'https://github.com/S1M0N38/love2d.nvim',
+    version = vim.version.range '3',
+  },
 }
 
 require('oil').setup {
@@ -46,3 +50,5 @@ require('catppuccin').setup {
 }
 
 require('dapui').setup()
+
+require('love2d').setup {}

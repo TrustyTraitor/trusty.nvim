@@ -20,3 +20,5 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 vim.api.nvim_create_autocmd('BufWritePre', {
   callback = MiniSnippets.session.stop,
 })
+
+vim.api.nvim_create_user_command('PackUpdate', function(opts) vim.pack.update() end, {})
